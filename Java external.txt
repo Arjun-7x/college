@@ -1,0 +1,118 @@
+public class Test {
+    public static void main(String[] args) {
+        for (int i = 1; i <= 5; i++) {
+            if (i % 2 == 0) {
+                System.out.println(i + " is Even");
+            } else {
+                System.out.println(i + " is Odd");
+            }
+        }
+    }
+}
+
+
+
+
+
+2
+import java.awt.*;
+import java.awt.event.*;
+
+public class SimpleCalculator extends Frame implements ActionListener {
+
+    TextField tf;
+    String num = "";
+    double first, second, result;
+    char operator;
+
+    public SimpleCalculator() {
+        tf = new TextField();
+        add(tf, BorderLayout.NORTH);
+
+        Panel p = new Panel();
+        p.setLayout(new GridLayout(4, 4));
+
+        String buttons[] = {
+            "7","8","9","+",
+            "4","5","6","-",
+            "1","2","3","*",
+            "0","%","=","C"
+        };
+
+        for (int i = 0; i < buttons.length; i++) {
+            Button b = new Button(buttons[i]);
+            b.addActionListener(this);
+            p.add(b);
+        }
+
+        add(p, BorderLayout.CENTER);
+
+        setTitle("Simple Calculator");
+        setSize(300,300);
+        setVisible(true);
+
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                dispose();
+            }
+        });
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        String s = e.getActionCommand();
+
+        if (s.matches("[0-9]")) {
+            num += s;
+            tf.setText(num);
+        }
+        else if (s.equals("+") || s.equals("-") ||
+                 s.equals("*") || s.equals("%")) {
+            first = Double.parseDouble(num);
+            operator = s.charAt(0);
+            num = "";
+            tf.setText("");
+        }
+        else if (s.equals("=")) {
+            try {
+                second = Double.parseDouble(num);
+
+                switch(operator) {
+                    case '+':
+                        result = first + second;
+                        break;
+                    case '-':
+                        result = first - second;
+                        break;
+                    case '*':
+                        result = first * second;
+                        break;
+                    case '%':
+                        if(second == 0)
+                            throw new ArithmeticException();
+                        result = first % second;
+                        break;
+                    default:
+                        result = 0;
+                }
+
+                tf.setText("" + result);
+                num = "" + result;
+
+            } catch (ArithmeticException ex) {
+                tf.setText("Cannot divide by zero");
+                num = "";
+            } catch (Exception ex) {
+                tf.setText("Invalid Input");
+                num = "";
+            }
+        }
+        else if (s.equals("C")) {
+            num = "";
+            tf.setText("");
+        }
+    }
+
+    public static void main(String args[]) {
+        new SimpleCalculator();
+    }
+}
