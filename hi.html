@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Addition of Number</title>
+    </head>
+    <body>
+        <h2>Add two Numbers</h2>
+        <label>First Number:</label>
+        <input type="Number" id="num1">
+        <br><br>
+        <label>Second Number:</label>
+        <input type="Number" id="num2">
+        <br><br>
+        <button onclick="addNumbers()">Add</button>
+        <h3 id="result"></h3>
+        <script>
+            function addNumbers() {
+                const a = document.getElementById("num1").value;
+                const b = document.getElementById("num2").value;
+                if (a.trim() === "" || b.trim() === "") {
+                    document.getElementById("result").textContent="Please enter both numbers.";
+                    return;
+                }
+                const sum = Number(a) + Number(b);
+                document.getElementById("result").textContent = "Sum:" + sum;
+            }
+        </script>
+    </body>
+</html>
